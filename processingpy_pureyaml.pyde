@@ -30,6 +30,21 @@ yamltext = dedent("""
     - superman
 """)[1:]
 
+# second example from test_ex_2_01_sequence_of_scalars
+
+from pureyaml.parser import YAMLParser
+from pureyaml.nodes import *
+parser = YAMLParser(debug=True)
+yamltext2 = dedent("""
+    - Mark McGwire
+    - Sammy Sosa
+    - Ken Griffey
+    """)[1:]
+
+def parse(text):
+    nodes = parser.parse(text)
+    return nodes
+
 def setup():
 
     pprint(pureyaml.load(yamltext))
@@ -49,3 +64,23 @@ def setup():
     # - iron man
     # - the hulk
     # - captain america
+
+    print(yamltext2)    
+    print(parse(yamltext2))
+    
+    # prints:
+    # <Docs:(<Doc:(<Sequence:(<Str:'Mark McGwire'>,
+    #   <Str:'Sammy Sosa'>, <Str:'Ken Griffey'>)>,)>,)>
+
+    buildyaml = Docs(
+         Doc(
+             Sequence(
+                 Str('Mark McGwire'),
+                 Str('Sammy Sosa'),
+                 Str('Ken Griffey'),
+             ),
+         ),
+    )
+    
+    print(buildyaml)
+    
